@@ -8,21 +8,19 @@ import (
 )
 
 const (
-	CHARSET                    = "UTF-8"
-	CONTENT_TYPE_JSON          = "application/json"
-	DEFAULT_CONNECTION_TIMEOUT = 20 //seconds
-	DEFAULT_SOCKET_TIMEOUT     = 30 // seconds
+	Charset                  = "UTF-8"
+	ContentTypeJson          = "application/json"
+	DefaultConnectionTimeout = 20 //seconds
+	DefaultSocketTimeout     = 30 // seconds
 )
 
 func SendPostString(url, content, authCode string) (string, error) {
-
-	//req := Post(url).Debug(true)
 	req := Post(url)
-	req.SetTimeout(DEFAULT_CONNECTION_TIMEOUT*time.Second, DEFAULT_SOCKET_TIMEOUT*time.Second)
+	req.SetTimeout(DefaultConnectionTimeout*time.Second, DefaultSocketTimeout*time.Second)
 	req.Header("Connection", "Keep-Alive")
-	req.Header("Charset", CHARSET)
+	req.Header("Charset", Charset)
 	req.Header("Authorization", authCode)
-	req.Header("Content-Type", CONTENT_TYPE_JSON)
+	req.Header("Content-Type", ContentTypeJson)
 	req.SetProtocolVersion("HTTP/1.1")
 	req.Body(content)
 
@@ -30,13 +28,12 @@ func SendPostString(url, content, authCode string) (string, error) {
 }
 
 func SendPostBytes(url string, content []byte, authCode string) (string, error) {
-
 	req := Post(url)
-	req.SetTimeout(DEFAULT_CONNECTION_TIMEOUT*time.Second, DEFAULT_SOCKET_TIMEOUT*time.Second)
+	req.SetTimeout(DefaultConnectionTimeout*time.Second, DefaultSocketTimeout*time.Second)
 	req.Header("Connection", "Keep-Alive")
-	req.Header("Charset", CHARSET)
+	req.Header("Charset", Charset)
 	req.Header("Authorization", authCode)
-	req.Header("Content-Type", CONTENT_TYPE_JSON)
+	req.Header("Content-Type", ContentTypeJson)
 	req.SetProtocolVersion("HTTP/1.1")
 	req.Body(content)
 
@@ -46,15 +43,15 @@ func SendPostBytes(url string, content []byte, authCode string) (string, error) 
 func SendPostBytes2(url string, data []byte, authCode string) (string, error) {
 
 	client := &http.Client{}
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer(data))
-	req.Header.Add("Charset", CHARSET)
+	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(data))
+	req.Header.Add("Charset", Charset)
 	req.Header.Add("Authorization", authCode)
-	req.Header.Add("Content-Type", CONTENT_TYPE_JSON)
+	req.Header.Add("Content-Type", ContentTypeJson)
 	resp, err := client.Do(req)
 
 	if err != nil {
 		if resp != nil {
-			resp.Body.Close()
+			_ = resp.Body.Close()
 		}
 		return "", err
 	}

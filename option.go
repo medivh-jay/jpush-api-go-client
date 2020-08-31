@@ -1,29 +1,30 @@
 package jpushclient
 
 type Option struct {
-	SendNo          int   `json:"sendno,omitempty"`
-	TimeLive        int   `json:"time_to_live,omitempty"`
-	ApnsProduction  bool  `json:"apns_production"`
-	OverrideMsgId   int64 `json:"override_msg_id,omitempty"`
-	BigPushDuration int   `json:"big_push_duration,omitempty"`
+	SendNo          int    `json:"sendno,omitempty"`
+	TimeLive        int    `json:"time_to_live,omitempty"`
+	ApnsProduction  bool   `json:"apns_production"`
+	ApnsCollapseID  string `json:"apns_collapse_id,omitempty"`
+	OverrideMsgId   int64  `json:"override_msg_id,omitempty"`
+	BigPushDuration int    `json:"big_push_duration,omitempty"`
 }
 
-func (this *Option) SetSendno(no int) {
-	this.SendNo = no
+func (option *Option) SetSendNo(no int) {
+	option.SendNo = no
 }
 
-func (this *Option) SetTimelive(timelive int) {
-	this.TimeLive = timelive
+func (option *Option) SetTimeLive(timeLive int) {
+	option.TimeLive = timeLive
 }
 
-func (this *Option) SetOverrideMsgId(id int64) {
-	this.OverrideMsgId = id
+func (option *Option) SetOverrideMsgId(id int64) {
+	option.OverrideMsgId = id
 }
 
-func (this *Option) SetApns(apns bool) {
-	this.ApnsProduction = apns
+func (option *Option) SetApns(apns bool) {
+	option.ApnsProduction = apns
 }
 
-func (this *Option) SetBigPushDuration(bigPushDuration int) {
-	this.BigPushDuration = bigPushDuration
+func (option *Option) SetBigPushDuration(bigPushDuration int) {
+	option.BigPushDuration = bigPushDuration
 }

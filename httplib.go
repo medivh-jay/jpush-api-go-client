@@ -163,16 +163,17 @@ func (b *HttpRequest) getResponse() (*http.Response, error) {
 		b.Body(paramBody)
 	}
 
-	url, err := url.Parse(b.url)
-	if url.Scheme == "" {
+	var err error
+	u, _ := url.Parse(b.url)
+	if u.Scheme == "" {
 		b.url = "http://" + b.url
-		url, err = url.Parse(b.url)
+		u, err = u.Parse(b.url)
 	}
 	if err != nil {
 		return nil, err
 	}
 
-	b.req.URL = url
+	b.req.URL = u
 	trans := b.transport
 
 	if trans == nil {
@@ -180,7 +181,6 @@ func (b *HttpRequest) getResponse() (*http.Response, error) {
 		trans = &http.Transport{
 			TLSClientConfig: b.tlsClientConfig,
 			Proxy:           b.proxy,
-			Dial:            TimeoutDialer(b.connectTimeout, b.readWriteTimeout),
 		}
 	} else {
 		// if b.transport is *http.Transport then set the settings.
@@ -190,9 +190,6 @@ func (b *HttpRequest) getResponse() (*http.Response, error) {
 			}
 			if t.Proxy == nil {
 				t.Proxy = b.proxy
-			}
-			if t.Dial == nil {
-				t.Dial = TimeoutDialer(b.connectTimeout, b.readWriteTimeout)
 			}
 		}
 	}
@@ -289,7 +286,7 @@ func (b *HttpRequest) ToXML(v interface{}) error {
 	return nil
 }
 
-// Response executes request client gets response mannually.
+// Response executes request client gets response.
 func (b *HttpRequest) Response() (*http.Response, error) {
 	return b.getResponse()
 }
@@ -301,7 +298,7 @@ func TimeoutDialer(cTimeout time.Duration, rwTimeout time.Duration) func(net, ad
 		if err != nil {
 			return nil, err
 		}
-		conn.SetDeadline(time.Now().Add(rwTimeout))
+		_ = conn.SetDeadline(time.Now().Add(rwTimeout))
 		return conn, nil
 	}
 }

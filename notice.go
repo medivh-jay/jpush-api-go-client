@@ -11,6 +11,8 @@ type AndroidNotice struct {
 	Alert     string                 `json:"alert"`
 	Title     string                 `json:"title,omitempty"`
 	BuilderId int                    `json:"builder_id,omitempty"`
+	Style     int                    `json:"style,omitempty"`
+	BigText   string                 `json:"big_text,omitempty"`
 	Extras    map[string]interface{} `json:"extras,omitempty"`
 }
 
@@ -31,18 +33,18 @@ type WinPhoneNotice struct {
 	Extras   map[string]interface{} `json:"extras,omitempty"`
 }
 
-func (this *Notice) SetAlert(alert string) {
-	this.Alert = alert
+func (notice *Notice) SetAlert(alert string) {
+	notice.Alert = alert
 }
 
-func (this *Notice) SetAndroidNotice(n *AndroidNotice) {
-	this.Android = n
+func (notice *Notice) SetAndroidNotice(n *AndroidNotice) {
+	notice.Android = n
 }
 
-func (this *Notice) SetIOSNotice(n *IOSNotice) {
-	this.IOS = n
+func (notice *Notice) SetIOSNotice(n *IOSNotice) {
+	notice.IOS = n
 }
 
-func (this *Notice) SetWinPhoneNotice(n *WinPhoneNotice) {
-	this.WINPhone = n
+func (notice *Notice) SetWinPhoneNotice(n *WinPhoneNotice) {
+	notice.WINPhone = n
 }

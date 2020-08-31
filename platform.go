@@ -11,19 +11,19 @@ const (
 )
 
 type Platform struct {
-	Os     interface{}
-	osArry []string
+	Os        interface{}
+	Platforms []string
 }
 
-func (this *Platform) All() {
-	this.Os = "all"
+func (platform *Platform) All() {
+	platform.Os = "all"
 }
 
-func (this *Platform) Add(os string) error {
-	if this.Os == nil {
-		this.osArry = make([]string, 0, 3)
+func (platform *Platform) Add(os string) error {
+	if platform.Os == nil {
+		platform.Platforms = make([]string, 0, 3)
 	} else {
-		switch this.Os.(type) {
+		switch platform.Os.(type) {
 		case string:
 			return errors.New("platform is all")
 		default:
@@ -31,7 +31,7 @@ func (this *Platform) Add(os string) error {
 	}
 
 	//判断是否重复
-	for _, value := range this.osArry {
+	for _, value := range platform.Platforms {
 		if os == value {
 			return nil
 		}
@@ -43,23 +43,23 @@ func (this *Platform) Add(os string) error {
 	case ANDROID:
 		fallthrough
 	case WINPHONE:
-		this.osArry = append(this.osArry, os)
-		this.Os = this.osArry
+		platform.Platforms = append(platform.Platforms, os)
+		platform.Os = platform.Platforms
 	default:
-		return errors.New("unknow platform")
+		return errors.New("platform error")
 	}
 
 	return nil
 }
 
-func (this *Platform) AddIOS() {
-	this.Add(IOS)
+func (platform *Platform) AddIOS() {
+	_ = platform.Add(IOS)
 }
 
-func (this *Platform) AddAndrid() {
-	this.Add(ANDROID)
+func (platform *Platform) AddAndroid() {
+	_ = platform.Add(ANDROID)
 }
 
-func (this *Platform) AddWinphone() {
-	this.Add(WINPHONE)
+func (platform *Platform) AddWinphone() {
+	_ = platform.Add(WINPHONE)
 }
